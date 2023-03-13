@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white grid grid-cols-1 space-y-5  my-2 rounded shadow mt-3 p-4 md:p-8 ">
-    <div class="w-full flex items-center justify-between">
+    <div class="w-full  flex items-center justify-between">
       <span class="text-gray-400 text-[14px]">نام و نام خانوادگی</span>
       <span class="text-[14px]">{{ props.item.last_name  +' '+ props.item.first_name}}</span>
     </div>

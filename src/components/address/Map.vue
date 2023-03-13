@@ -1,9 +1,10 @@
 <template>
   <div class="relative">
-    <button type="button" @click="getUserLocation"  class="bg-white z-50 p-3 rounded-full shadow absolute bottom-3 right-3">
+    <button class="bg-white z-50 p-3 rounded-full shadow absolute bottom-3 right-3" type="button"
+            @click="getUserLocation">
       <LocationIcon></LocationIcon>
     </button>
-  <div id="map" class="col-span-12 z-10"></div>
+    <div id="map" class="col-span-12 z-10"></div>
   </div>
 </template>
 <script>
@@ -13,6 +14,7 @@ import marker from '/src/assets/image/marker-icon.png'
 import retinaMarker from '/src/assets/image/marker-icon-2x.png'
 import shadow from '/src/assets/image/marker-shadow.png'
 import LocationIcon from "@/components/icons/LocationIcon.vue";
+
 export default {
   components: {LocationIcon},
   emits: ["getGeoLocation"],
@@ -27,6 +29,13 @@ export default {
     },
   },
   watch: {
+    selectedCoordinates: {
+      handler(val) {
+        if (val && val.length > 0) {
+          this.map.setView(val, 11);
+        }
+      },
+    },
     defaultViewGeoLoc: {
       handler(val) {
         if (val && val.length > 0) {
@@ -70,18 +79,32 @@ export default {
       marker: null,
       latitude: null,
       longitude: null,
+      selectedCoordinates: null
     };
   },
   methods: {
-    async getUserLocation(){
-    const permissions =   await  navigator.permissions.query({name:'geolocation'})
-      if(permissions.state ==='prompt'){
-      navigator.geolocation.getCurrentPosition((position) => {
-          console.log(position,1111)
-          let lat = position.coords.latitude;
-          let long = position.coords.longitude;
+    async getUserLocation() {
+      const permissions = await navigator.permissions.query({name: 'geolocation'})
+      if (permissions.state === 'prompt' ||permissions.state === 'granted') {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          this.selectedCoordinates = [this.latitude, this.longitude]
+          if (!this.marker) {
+            // Check if a marker already exists
+            // If not, create a new one
+            this.marker = L.marker([this.latitude, this.longitude]);
+            this.marker.addTo(this.map);
+          } else {
+            // If a marker already exists, remove it first,
+            // Then add new marker
+            await this.marker.removeFrom(this.map);
+            this.marker = L.marker([this.latitude, this.longitude]);
+            this.marker.addTo(this.map);
+          }
+          this.$emit("getGeoLocation", this.latitude, this.longitude);
         });
-      }else if(permissions.state ==='denied'){
+      } else if (permissions.state === 'denied') {
       }
 
     },
@@ -109,8 +132,9 @@ export default {
 #map {
   height: 600px !important;
 }
-.leaflet-control-attribution{
-  display: none!important;
+
+.leaflet-control-attribution {
+  display: none !important;
 }
 
 </style>

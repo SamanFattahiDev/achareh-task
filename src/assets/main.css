@@ -12,6 +12,10 @@ body{
     direction: rtl;
     @apply bg-gray-100 !important
 }
+.Vue-Toastification__toast-body{
+    font-family: Vazir, serif !important;
+
+}
 /*#app {*/
 /*  max-width: 1280px;*/
 /*  margin: 0 auto;*/

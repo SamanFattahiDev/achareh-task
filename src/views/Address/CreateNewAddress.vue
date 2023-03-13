@@ -22,13 +22,16 @@ import AddressData from "@/components/address/addressData.vue";
 import MapData from "@/components/address/MapData.vue";
 import LoadingSpinner from "@/components/utilities/loadingSpinner.vue";
 import ResponseCreate from "@/components/address/ResponseCreate.vue";
-
+import { useToast } from "vue-toastification";
+import errorHandler from '@/plugins/errorHandler.js'
 const repositories: any = inject('repositories')
+import {useRouter} from "vue-router";
+
 const child = ref<any>(null)
 const map = ref<any>(null)
-
+const toast = useToast();
 const addressInfo = ref<any>(null)
-const activeSlug = ref<number>(2)
+const activeSlug = ref<number>(1)
 const isRequesting = ref(false)
 
 function getAddressInfo(content: Object): void {
@@ -48,13 +51,15 @@ async function createAddress() {
     const res = await repositories.AddressEndPoint.setPayload(addressInfo.value)
     activeSlug.value = 3
   } catch (error: any) {
-    // console.log(error.response.data)
+    errorHandler(error.response.data)
+    activeSlug.value= 1
   } finally {
     isRequesting.value = false
   }
 }
 
 function callInfos(): void {
+
   if (activeSlug.value === 1) {
     child.value.validateData()
   }

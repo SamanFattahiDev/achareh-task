@@ -1,6 +1,6 @@
 <template>
   <div class="p-3.5 w-full">
-    <h1 class="font-bold md:text-[16px] ">ثبت آدرس</h1>
+    <h1 class="font-bold text-gray-500 md:text-[16px] ">ثبت آدرس</h1>
     <section class="bg-white   rounded shadow mt-3 p-2 md:p-8 ">
 
 
@@ -58,7 +58,8 @@
 <script lang="ts" setup>
 import {computed, defineEmits, defineExpose, reactive, ref} from "vue";
 import VInput from "@/components/utilities/CustomInput.vue";
-
+import {useToast} from "vue-toastification"
+const toast = useToast()
 interface basicAddressData {
   first_name: string,
   last_name: string,
@@ -88,6 +89,8 @@ const emits = defineEmits(['sendAddressInfo'])
 function validateData() {
   if (nameValidation.value === false && lastNameValidation.value === false && mobileValidation.value === false && addressValidation.value === false) {
     emits('sendAddressInfo', addressInfo)
+  }else{
+    toast.error('لطفا همه فیلد ها را پر کنید')
   }
 }
 
