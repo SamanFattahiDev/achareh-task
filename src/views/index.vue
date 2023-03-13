@@ -8,6 +8,7 @@
 </template>
 
 <script setup>
+
 import {inject, onMounted, reactive, ref} from "vue";
 import AddressCard from "../components/address/AddressCard.vue";
 import AddressCardDesktop from "../components/address/AddressCardDesktop.vue";
