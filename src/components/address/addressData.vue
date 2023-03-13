@@ -1,64 +1,63 @@
 <template>
-    <div class="p-3.5">
-      <h1 class="font-bold ">ثبت آدرس</h1>
-      <section class="bg-white   rounded shadow mt-3 p-2 md:p-8 ">
+  <div class="p-3.5 w-full">
+    <h1 class="font-bold md:text-[16px] ">ثبت آدرس</h1>
+    <section class="bg-white   rounded shadow mt-3 p-2 md:p-8 ">
 
 
-        <div class="w-full grid grid-cols-12 space-x-2">
-          <div class="col-span-12 ">
-            <span class="form-default ">لطفا مشخصات و آدرس خود را وارد کنید</span>
+      <div class="w-full grid grid-cols-12 space-x-2">
+        <div class="col-span-12 ">
+          <span class="form-default ">لطفا مشخصات و آدرس خود را وارد کنید</span>
+        </div>
+        <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
+          <span class="form-default">نام</span>
+          <VInput v-model="addressInfo.first_name" :dataType="'text'" :error="nameValidation"
+                  :errorMessage="'نام باید دارای 3 کاراکتر باشد'" :placeHolder="'مثال : محمد'"></VInput>
+        </div>
+        <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
+          <span class="form-default">نام خانوادگی</span>
+          <VInput v-model="addressInfo.last_name" :dataType="'text'" :error="lastNameValidation"
+                  :errorMessage="'نام خانوادگی باید دارای 3 کاراکتر باشد'" :placeHolder="'مثال : رضایی'"></VInput>
+        </div>
+        <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
+          <span class="form-default">شماره تلفن همراه</span>
+          <VInput v-model="addressInfo.coordinate_mobile" :dataType="'tel'" :error="mobileValidation"
+                  :errorMessage="'پر کردن این فیلد الزامی است'" :maxLength="'11'"
+                  :placeHolder="'09121111111'"></VInput>
+        </div>
+        <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="form-default">شماره تلفن ثابت (اختیاری)</span>
+            <span class="!text-gray-400 form-default ">* با پیش شماره </span>
           </div>
-          <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
-            <span class="form-default">نام</span>
-            <VInput :dataType="'text'" :error="nameValidation" :placeHolder="'مثال : محمد'"
-                    :errorMessage="'نام باید دارای 3 کاراکتر باشد'" v-model="addressInfo.first_name"></VInput>
+          <VInput v-model="addressInfo.coordinate_phone_number" :dataType="'tel'" :maxLength="'11'"
+                  :placeHolder="'02144256780'"></VInput>
+        </div>
+        <div class="col-span-12 md:col-span-8  my-3 flex flex-col gap-2">
+          <span class="form-default">آدرس</span>
+          <VInput v-model="addressInfo.address" :dataType="'text'" :error="addressValidation"
+                  :errorMessage="'پر کردن این فیلد الزامی است'"></VInput>
+        </div>
+        <div class="col-span-12 my-3   flex items-center  gap-5">
+          <span class="form-default">جنسیت</span>
+          <div class="flex items-center gap-1">
+            <small class="form-default">خانم</small>
+            <input v-model="addressInfo.gender" class=" radio  " name="gender" type="radio" value="female">
           </div>
-          <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
-            <span class="form-default">نام خانوادگی</span>
-            <VInput :dataType="'text'" :error="lastNameValidation" :placeHolder="'مثال : رضایی'"
-                    :errorMessage="'نام خانوادگی باید دارای 3 کاراکتر باشد'" v-model="addressInfo.last_name"></VInput>
-          </div>
-          <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
-            <span class="form-default">شماره تلفن همراه</span>
-            <VInput :maxLength="'11'" :error="mobileValidation" :placeHolder="'09121111111'"
-                    :errorMessage="'پر کردن این فیلد الزامی است'" :dataType="'tel'"
-                    v-model="addressInfo.coordinate_mobile"></VInput>
-          </div>
-          <div class="col-span-12 md:col-span-4 my-3 flex flex-col gap-2">
-            <div class="flex items-center justify-between">
-              <span class="form-default">شماره تلفن ثابت (اختیاری)</span>
-              <span class="!text-gray-400 form-default ">* با پیش شماره </span>
-            </div>
-            <VInput :maxLength="'11'" :dataType="'tel'" :placeHolder="'02144256780'"
-                    v-model="addressInfo.coordinate_phone_number"></VInput>
-          </div>
-          <div class="col-span-12 md:col-span-8  my-3 flex flex-col gap-2">
-            <span class="form-default">آدرس</span>
-            <VInput :error="addressValidation" :errorMessage="'پر کردن این فیلد الزامی است'" :dataType="'text'"
-                    v-model="addressInfo.address"></VInput>
-          </div>
-          <div class="col-span-12 my-3   flex items-center  gap-5">
-            <span class="form-default">جنسیت</span>
-            <div class="flex items-center gap-1">
-              <small class="form-default">خانم</small>
-              <input type="radio" v-model="addressInfo.gender" value="female" class=" radio  " name="gender">
-            </div>
-            <div class="flex items-center gap-1">
-              <small class="form-default">آقا</small>
-              <input type="radio" v-model="addressInfo.gender" value="male" class="radio   " name="gender">
-            </div>
+          <div class="flex items-center gap-1">
+            <small class="form-default">آقا</small>
+            <input v-model="addressInfo.gender" class="radio   " name="gender" type="radio" value="male">
           </div>
         </div>
-      </section>
-    </div>
-
+      </div>
+    </section>
+  </div>
 
 
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, defineEmits, defineExpose, reactive, ref} from "vue";
-import VInput from "@/components/utilities/VInput.vue";
+import VInput from "@/components/utilities/CustomInput.vue";
 
 interface basicAddressData {
   first_name: string,
@@ -87,23 +86,29 @@ defineExpose({
 const emits = defineEmits(['sendAddressInfo'])
 
 function validateData() {
-  if (!nameValidation.value && !lastNameValidation.value && !mobileValidation.value && !addressValidation.value) {
+  if (nameValidation.value === false && lastNameValidation.value === false && mobileValidation.value === false && addressValidation.value === false) {
     emits('sendAddressInfo', addressInfo)
   }
 }
 
 const nameValidation = computed(() => {
   let resolve = null
-  if (addressInfo.first_name && addressInfo.first_name.length < 3) {
+  if (!addressInfo.first_name) {
+    resolve = null
+  } else if (addressInfo.first_name && addressInfo.first_name.length < 3) {
     resolve = true
   } else {
     resolve = false
   }
   return resolve
 })
+
+
 const lastNameValidation = computed(() => {
   let resolve = null
-  if (addressInfo.last_name && addressInfo.last_name.length < 3) {
+  if (!addressInfo.last_name) {
+    resolve = null
+  } else if (addressInfo.last_name && addressInfo.last_name.length < 3) {
     resolve = true
   } else {
     resolve = false
@@ -112,7 +117,9 @@ const lastNameValidation = computed(() => {
 })
 const mobileValidation = computed(() => {
   let resolve = null
-  if (addressInfo.coordinate_mobile && addressInfo.coordinate_mobile.length !== 11) {
+  if (!addressInfo.coordinate_mobile) {
+    resolve = null
+  } else if (addressInfo.coordinate_mobile && addressInfo.coordinate_mobile.length !== 11) {
     resolve = true
   } else {
     resolve = false
@@ -121,7 +128,9 @@ const mobileValidation = computed(() => {
 })
 const addressValidation = computed(() => {
   let resolve = null
-  if (addressInfo.address && addressInfo.address.length < 10) {
+  if (!addressInfo.address) {
+    resolve = null
+  } else if (addressInfo.address && addressInfo.address.length < 10) {
     resolve = true
   } else {
     resolve = false
@@ -133,7 +142,7 @@ const addressValidation = computed(() => {
 
 <style scoped>
 .form-default {
-  @apply text-gray-700 text-[12px]
+  @apply text-gray-700 text-[12px] md:text-base
 }
 
 .radio:checked, .radio[aria-checked=true] {

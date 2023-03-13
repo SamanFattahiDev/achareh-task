@@ -1,6 +1,6 @@
 import axios from 'axios'
 axios.defaults.baseURL = 'https://stage.achareh.ir/api/karfarmas/';
-axios.defaults.headers.common['Authorization'] = 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0'
+axios.defaults.headers.common['Authorization'] = 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0';
 export default (context, resources) => ({
     async setTag() {
 

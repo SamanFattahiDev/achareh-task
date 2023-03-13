@@ -1,12 +1,12 @@
-
 <template>
-
-  <Header></Header>
-  <RouterView />
+  <div class="h-full">
+    <Header></Header>
+    <RouterView/>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { RouterView } from 'vue-router'
+<script lang="ts" setup>
+import {RouterView} from 'vue-router'
 import Header from "@/components/main/Header.vue";
 
 </script>

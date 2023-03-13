@@ -1,12 +1,20 @@
 <template>
-  <div id="map" class="col-span-12"></div>
+  <div class="relative">
+    <button type="button" @click="getUserLocation"  class="bg-white z-50 p-3 rounded-full shadow absolute bottom-3 right-3">
+      <LocationIcon></LocationIcon>
+    </button>
+  <div id="map" class="col-span-12 z-10"></div>
+  </div>
 </template>
 <script>
+
+
 import marker from '/src/assets/image/marker-icon.png'
 import retinaMarker from '/src/assets/image/marker-icon-2x.png'
 import shadow from '/src/assets/image/marker-shadow.png'
-
+import LocationIcon from "@/components/icons/LocationIcon.vue";
 export default {
+  components: {LocationIcon},
   emits: ["getGeoLocation"],
   props: {
     defaultViewGeoLoc: {
@@ -35,7 +43,7 @@ export default {
       this.map = L.map("map").setView([35.751128, 51.418679], 14);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
-        attribution: "© OpenStreetMap",
+        // attribution: "© OpenStreetMap",
       }).addTo(this.map);
       // Leaflet has a known issue with wrong marker address
       // This section is their own provided solution for fixing this issue
@@ -64,12 +72,19 @@ export default {
       longitude: null,
     };
   },
-  computed:{
-    IconUrl(){
-      return marker
-    }
-  },
   methods: {
+    async getUserLocation(){
+    const permissions =   await  navigator.permissions.query({name:'geolocation'})
+      if(permissions.state ==='prompt'){
+      navigator.geolocation.getCurrentPosition((position) => {
+          console.log(position,1111)
+          let lat = position.coords.latitude;
+          let long = position.coords.longitude;
+        });
+      }else if(permissions.state ==='denied'){
+      }
+
+    },
     async handleMapClick(event) {
       this.latitude = event.latlng.lat;
       this.longitude = event.latlng.lng;
@@ -94,6 +109,8 @@ export default {
 #map {
   height: 600px !important;
 }
-
+.leaflet-control-attribution{
+  display: none!important;
+}
 
 </style>
