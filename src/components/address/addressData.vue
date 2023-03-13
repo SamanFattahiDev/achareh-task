@@ -55,22 +55,22 @@
 
 </template>
 
-<script lang="ts" setup>
+<script  setup>
 import {computed, defineEmits, defineExpose, reactive, ref} from "vue";
 import VInput from "@/components/utilities/CustomInput.vue";
 import {useToast} from "vue-toastification"
 const toast = useToast()
-interface basicAddressData {
-  first_name: string,
-  last_name: string,
-  coordinate_mobile: number | null,
-  coordinate_phone_number: number | null,
-  address: string,
-  region: number,
-  gender: string
-}
+// interface basicAddressData {
+//   first_name: string,
+//   last_name: string,
+//   coordinate_mobile: number | null | string,
+//   coordinate_phone_number: number | null | string,
+//   address: string,
+//   region: number,
+//   gender: string
+// }
 
-const addressInfo = reactive<basicAddressData>({
+const addressInfo = reactive({
   first_name: '',
   last_name: '',
   coordinate_mobile: null,

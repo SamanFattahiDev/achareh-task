@@ -9,6 +9,7 @@ import "vue-toastification/dist/index.css";
 
 import './assets/main.css'
 import repositories from './plugins/repositories.js'
+// @ts-ignore
 import { LMap, LTileLayer, LMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 const app = createApp(App)
